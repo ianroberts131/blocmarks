@@ -17,6 +17,7 @@ class TopicsController < ApplicationController
     @topic = @user.topics.build(topic_params)
     
     if @topic.save
+      flash[:notice] = 'Topic successfully created'
       redirect_to(topics_path)
     else
       flash[:alert] = 'There was an error creating the topic'
@@ -25,7 +26,22 @@ class TopicsController < ApplicationController
   end
 
   def edit
-    @topic = Topic.find(params[:id])
+    @user = current_user
+    @topic = @user.topics.find(params[:id])
+  end
+  
+  def update
+    @user = current_user
+    @topic = @user.topics.find(params[:id])
+    @topic.assign_attributes(topic_params)
+    
+    if @topic.save
+      flash[:notice] = 'Topic successfully updated'
+      redirect_to(topic_path)
+    else
+      flash[:alert] = 'There was an error updating the topic'
+      render :edit
+    end
   end
   
   def destroy
