@@ -1,0 +1,8 @@
+<h1>Topics</h1>
+
+<% @topics.each do |topic| %>
+  <h3><%= link_to topic.title, topic %></h3>
+<% end %>
+
+<%= link_to "New Topic", new_topic_path %>
+  
