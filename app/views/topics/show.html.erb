@@ -1,12 +1,23 @@
 <div class='row'>
   <div class='col-md-8'>
-    <div class='show-header'>
+    <div>
       <h1><%= @topic.title %></h1>
       <% if current_user %>
           <%= link_to "Delete Topic", @topic, method: :delete, class: 'btn btn-danger' %>
           <%= link_to "Edit Topic", edit_topic_path, class: 'btn btn-primary' %>
+          <%= link_to "New Bookmark", new_topic_bookmark_path(@topic), class: 'btn btn-success' %>
       <% end %>
-    </div>  
+    </div> 
+    <div class="bookmarks">
+      <ul style="list-style-type:none">
+        <% @topic.bookmarks.each do |bookmark| %>
+          <li><%= link_to "#{bookmark.url}", bookmark.url %> | 
+              <%= link_to "Edit", edit_topic_bookmark_path(@topic, bookmark) %> |
+              <%= link_to "Delete", [@topic, bookmark], method: :delete %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
 
