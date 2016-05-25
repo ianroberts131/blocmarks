@@ -1,6 +1,5 @@
 class BookmarksController < ApplicationController
-  def show
-  end
+  before_action :authorize_user
 
   def new
     @user = current_user
@@ -44,8 +43,6 @@ class BookmarksController < ApplicationController
   end
   
   def destroy
-    @user = current_user
-    @topic = @user.topics.find(params[:topic_id])
     @bookmark = Bookmark.find(params[:id])
     
     if @bookmark.destroy
@@ -59,5 +56,13 @@ class BookmarksController < ApplicationController
 private
 def bookmark_params
   params.require(:bookmark).permit(:url)
+end
+
+def authorize_user
+  @topic = Topic.find(params[:topic_id])
+  unless current_user == @topic.user
+    flash[:alert] = "You must be the topic owner to do that!"
+    redirect_to(@topic)
+  end
 end
 end

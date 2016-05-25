@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature "User Edits Topics", type: :feature do
   scenario "successfully" do
     user = create(:user)
+    topic = create(:topic, title: "News Articles", user: user)
     
     visit '/users/sign_in'
     expect(page).to have_css('h2', text: 'Log in')
@@ -11,10 +12,7 @@ RSpec.feature "User Edits Topics", type: :feature do
     click_button 'Log in'
     
     expect(page).to have_text "Signed in as: #{user.email}"
-    click_link 'New Topic'
-    fill_in 'Enter topic title', with: 'News Articles'
-    click_button 'Add Topic'
-    
+   
     click_link 'News Articles'
     expect(page).to have_css('h1', text: 'News Articles')
     click_link 'Edit Topic'
