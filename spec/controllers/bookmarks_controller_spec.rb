@@ -52,7 +52,10 @@ RSpec.describe BookmarksController, type: :controller do
   
         sign_in(attacker)
   
-        put :update, { topic_id: attacker_topic.id, id: victim_bookmark.id, bookmark: { url: attacker_url } }
+        
+        expect do 
+          put :update, { topic_id: attacker_topic.id, id: victim_bookmark.id, bookmark: { url: attacker_url } } 
+        end.to raise_error(ActiveRecord::RecordNotFound)
   
         victim_bookmark.reload
         expect(victim_bookmark.url).to eq original_url
