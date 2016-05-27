@@ -31,7 +31,7 @@ RSpec.describe BookmarksController, type: :controller do
         other_user = User.create(email: "other_user@bloc.io", password: "password", password_confirmation: "password")
         sign_in(other_user)
         get :new, { topic_id: my_topic.id }
-        expect(response).to redirect_to(topic_path)
+        expect(response).to redirect_to(topic_path(my_topic))
       end
     end
     
@@ -40,7 +40,23 @@ RSpec.describe BookmarksController, type: :controller do
         other_user = User.create(email: "other_user@bloc.io", password: "password", password_confirmation: "password")
         sign_in(other_user)
         get :edit, { topic_id: my_topic.id, id: my_bookmark.id }
-        expect(response).to redirect_to(topic_path)
+        expect(response).to redirect_to(topic_path(my_topic))
+      end
+      
+      it "cannot update a victims bookmark" do
+        attacker = create(:user, email: "attacker@bloc.io")
+        attacker_topic = create(:topic, user: attacker)
+        victim_bookmark = my_bookmark
+        original_url = victim_bookmark.url
+        attacker_url = 'http://attacker-controlled.tld/'
+  
+        sign_in(attacker)
+  
+        put :update, { topic_id: attacker_topic.id, id: victim_bookmark.id, bookmark: { url: attacker_url } }
+  
+        victim_bookmark.reload
+        expect(victim_bookmark.url).to eq original_url
+        expect(victim_bookmark.url).not_to eq attacker_url
       end
     end
   end

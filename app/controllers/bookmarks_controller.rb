@@ -9,7 +9,7 @@ class BookmarksController < ApplicationController
   
   def create
     @user = current_user
-    @topic = @user.topics.find(params[:topic_id])
+    @topic = Topic.find(params[:topic_id])
     @bookmark = @topic.bookmarks.build(bookmark_params)
     
     if @bookmark.save
@@ -24,13 +24,13 @@ class BookmarksController < ApplicationController
   def edit
     @user = current_user
     @topic = @user.topics.find(params[:topic_id])
-    @bookmark = Bookmark.find(params[:id])
+    @bookmark = @topic.bookmarks.find(params[:id])
   end
   
   def update
     @user = current_user
     @topic = @user.topics.find(params[:topic_id])
-    @bookmark = Bookmark.find(params[:id])
+    @bookmark = @topic.bookmarks.find(params[:id])
     @bookmark.assign_attributes(bookmark_params)
     
     if @bookmark.save
@@ -43,7 +43,9 @@ class BookmarksController < ApplicationController
   end
   
   def destroy
-    @bookmark = Bookmark.find(params[:id])
+    @user = current_user
+    @topic = @user.topics.find(params[:id])
+    @bookmark = @topic.bookmarks.find(params[:id])
     
     if @bookmark.destroy
       redirect_to(@topic)
