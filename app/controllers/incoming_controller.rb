@@ -7,7 +7,6 @@ class IncomingController < ApplicationController
     @topic = @user.topics.find_by(title: params["subject"])
     @bookmark = @topic.bookmarks.build(url: params["stripped-text"])
     @bookmark.save
-    puts "INCOMING PARAMS HERE: #{params}"
     head 200
   end
 end
