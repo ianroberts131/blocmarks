@@ -6,7 +6,7 @@ class IncomingController < ApplicationController
     @user = User.find_by(email: params["sender"])
     
     if @user.topics.find_by(title: params["subject"]) == nil
-      @user.topics.build(title: params["subject"])
+      @topic = @user.topics.build(title: params["subject"])
       @topic.save
     end
     
