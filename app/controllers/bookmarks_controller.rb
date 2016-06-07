@@ -44,7 +44,7 @@ class BookmarksController < ApplicationController
   
   def destroy
     @user = current_user
-    @topic = @user.topics.find(params[:id])
+    @topic = @user.topics.find(params[:topic_id])
     @bookmark = @topic.bookmarks.find(params[:id])
     
     if @bookmark.destroy
