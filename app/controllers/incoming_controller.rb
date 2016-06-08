@@ -4,15 +4,16 @@ class IncomingController < ApplicationController
   
   def create
     @user = User.find_by(email: params["sender"])
+    @topic = @user.topics.find_by(title: params["subject"])
     
-    if @user.topics.find_by(title: params["subject"]) == nil
+    if @topic.nil?
       @topic = @user.topics.build(title: params["subject"])
       @topic.save
     end
     
-    @topic = @user.topics.find_by(title: params["subject"])
     @bookmark = @topic.bookmarks.build(url: params["stripped-text"])
     @bookmark.save
+    
     head 200
   end
 end
