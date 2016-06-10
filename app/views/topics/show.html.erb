@@ -11,9 +11,11 @@
     <div class="bookmarks">
       <ul style="list-style-type:none">
         <% @topic.bookmarks.each do |bookmark| %>
-          <li><%= link_to "#{bookmark.url}", bookmark.url %> | 
-              <%= link_to "Edit", edit_topic_bookmark_path(@topic, bookmark) %> |
-              <%= link_to "Delete", [@topic, bookmark], method: :delete %>
+          <li><%= link_to "#{bookmark.url}", bookmark.url %>
+              <% if current_user == @topic.user %>
+                | <%= link_to "Edit", edit_topic_bookmark_path(@topic, bookmark) %>
+                | <%= link_to "Delete", [@topic, bookmark], method: :delete %>
+              <% end %>
           </li>
         <% end %>
       </ul>

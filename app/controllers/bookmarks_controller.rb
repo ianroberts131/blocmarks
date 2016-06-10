@@ -31,6 +31,10 @@ class BookmarksController < ApplicationController
     @user = current_user
     @topic = @user.topics.find(params[:topic_id])
     @bookmark = @topic.bookmarks.find(params[:id])
+    
+    # is this even necessary?
+    authorize @bookmark
+    
     @bookmark.assign_attributes(bookmark_params)
     
     if @bookmark.save
@@ -46,6 +50,9 @@ class BookmarksController < ApplicationController
     @user = current_user
     @topic = @user.topics.find(params[:topic_id])
     @bookmark = @topic.bookmarks.find(params[:id])
+    
+    # is this even necessary?
+    authorize @bookmark
     
     if @bookmark.destroy
       redirect_to(@topic)
