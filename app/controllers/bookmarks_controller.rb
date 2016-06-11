@@ -32,7 +32,6 @@ class BookmarksController < ApplicationController
     @topic = @user.topics.find(params[:topic_id])
     @bookmark = @topic.bookmarks.find(params[:id])
     
-    # is this even necessary?
     authorize @bookmark
     
     @bookmark.assign_attributes(bookmark_params)
@@ -51,7 +50,6 @@ class BookmarksController < ApplicationController
     @topic = @user.topics.find(params[:topic_id])
     @bookmark = @topic.bookmarks.find(params[:id])
     
-    # is this even necessary?
     authorize @bookmark
     
     if @bookmark.destroy
