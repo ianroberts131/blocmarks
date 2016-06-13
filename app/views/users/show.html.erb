@@ -1,0 +1,36 @@
+<h2 align="center">My Blocmarks</h2>
+  <div class="row">
+    <% @user_bookmarks_hash.each do |topic_id, bookmark_array| %>
+      <div class="col-xs-4">
+        <h3><%= Topic.find_by(id: topic_id).title %></h3>
+          <div class="bookmarks">
+            <ul style = "list-style-type:none">
+              <% bookmark_array.each do |bookmark| %>
+                <li><%= link_to "#{bookmark.url}", bookmark.url %>
+                    <%= render partial: 'likes/like', locals: { bookmark: bookmark } %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+      </div>    
+    <% end %>
+  </div>
+  
+<h2 align="center">Liked Blocmarks</h2>
+  <div class="row">
+    <% @liked_bookmarks_hash.each do |topic_id, bookmark_array| %>
+      <div class="col-xs-4">
+        <h3><%= Topic.find_by(id: topic_id).title %></h3>
+          <div class="bookmarks">
+            <ul style = "list-style-type:none">
+              <% bookmark_array.each do |bookmark| %>
+                <li><%= link_to "#{bookmark.url}", bookmark.url %>
+                    <%= render partial: 'likes/like', locals: { bookmark: bookmark } %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+      </div>  
+    <% end %>
+  </div>
+
